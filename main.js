@@ -10,8 +10,8 @@ const popUpReplayBtn = document.querySelector('.pop-up__btn');
 const popUpText = document.querySelector('.pop-up__text');
 
 let score = 0;
-let timer = null;
-
+let timerId = null;
+let remainSec = 10;
 
 
 function gameInit() {
@@ -50,8 +50,11 @@ function makeRandomNum(min, max) {
 }
 
 function onTimer() {
-  timer = setInterval(() => {
-
+  gameTimer.textContent = `${Math.floor(remainSec / 60)}:${remainSec % 60}`
+  remainSec--
+  timerId = setInterval(() => {
+    gameTimer.textContent = `${Math.floor(remainSec / 60)}:${remainSec % 60}`
+    remainSec--
   }, 1000)
 };
 
@@ -59,8 +62,8 @@ gameBtn.addEventListener('click', (event) => {
   gameInit();
 
   const gameBtnIco = gameBtn.childNodes[0];
-  gameBtnIco.classList.toggle('fa-play')
-  gameBtnIco.classList.toggle('fa-stop')
+  gameBtnIco.classList.remove('fa-play')
+  gameBtnIco.classList.add('fa-stop')
 });
 
 popUpReplayBtn.addEventListener('click', () => {
