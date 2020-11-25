@@ -1,4 +1,11 @@
 'use strict'
+
+const alertSound = new Audio('sound/alert.wav');
+const bgSound = new Audio('sound/bg.mp3');
+const bugSound = new Audio('sound/bug_pull.mp3');
+const carrotSound = new Audio('sound/carrot_pull.mp3');
+const gameWinSound = new Audio('sound/game_win.mp3');
+
 const CARROT_NUM = 10;
 const BUG_NUM = 10;
 const IMG_WIDTH = 80;
@@ -26,6 +33,7 @@ gameBtn.addEventListener('click', () => {
   } else {
     stopGame();
     hideGameBtn();
+    alertSound.play();
     showPopUp(`Replay❓`)
     gameBtnIco.classList.remove('fa-stop')
     gameBtnIco.classList.add('fa-play')
@@ -48,14 +56,18 @@ gameField.addEventListener('click', (event) => {
     target.remove();
     score++
     updatdScore();
+    carrotSound.currentTime = 0;
+    carrotSound.play();
     if(score === CARROT_NUM) {
       stopGame();
       hideGameBtn();
+      gameWinSound.play();
       showPopUp(`YOU WON 🎇`)
     }
   } else if(target.matches('.bug')) {
     stopGame();
     hideGameBtn();
+    bugSound.play();
     showPopUp('YOU LOST 💣')
   }
 })
@@ -67,10 +79,13 @@ function startGame() {
   addItems('bug', 'img/bug.png', BUG_NUM);
   onTimer();
   updatdScore();
+  bgSound.play();
   started = true;
 };
 
 function stopGame() {
+  bgSound.pause();
+  bgSound.currentTime = 0;
   clearInterval(timerId);
   started = false;
 }
@@ -106,6 +121,7 @@ function onTimer() {
     if(remainSec <= 0) {
       stopGame();
       hideGameBtn();
+      alertSound.play();
       showPopUp(`YOU LOST ⏰`);
     };
   }, 1000)
