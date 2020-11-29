@@ -1,6 +1,8 @@
 'use strict'
 
 import PopUp from './pop_up.js'
+import Field from './field.js'
+
 
 const alertSound = new Audio('sound/alert.wav');
 const bgSound = new Audio('sound/bg.mp3');
@@ -8,17 +10,14 @@ const bugSound = new Audio('sound/bug_pull.mp3');
 const carrotSound = new Audio('sound/carrot_pull.mp3');
 const gameWinSound = new Audio('sound/game_win.mp3');
 
-const CARROT_NUM = 10;
-const BUG_NUM = 10;
-const IMG_WIDTH = 80;
-const IMG_HEIGHT = 80;
+const CARROT_NUM = 3;
+const BUG_NUM = 2;
+const TIME_DURATION = 3;
 
 const gameBtn = document.querySelector('.game__btn');
 const gameBtnIco = gameBtn.childNodes[0];
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
-const gameField = document.querySelector('.game__field');
-
 
 let started = false;
 let score = 0;
@@ -28,8 +27,11 @@ let timerId = null;
 const gameFinishBanner = new PopUp();
 gameFinishBanner.setClickListener(startGame);
 
+const field = new Field(3, 2);
+
 gameBtn.addEventListener('click', () => {
   if(gameBtnIco.matches('.fa-play')) {
+    field.init();
     startGame();
   } else {
     stopGame();
@@ -40,7 +42,7 @@ gameBtn.addEventListener('click', () => {
   }
 });
 
-gameField.addEventListener('click', (event) => {
+field.gameField.addEventListener('click', (event) => {
   if(!started) {
     return
   }
@@ -66,9 +68,6 @@ gameField.addEventListener('click', (event) => {
 
 function startGame() {
   score = 0;
-  gameField.innerHTML = ''
-  addItems('carrot', 'img/carrot.png', CARROT_NUM);
-  addItems('bug', 'img/bug.png', BUG_NUM);
   onTimer();
   updatdScore();
   showGameBtn();
@@ -84,30 +83,8 @@ function stopGame() {
   hideGameBtn();
 }
 
-function addItems(className, url, num) {
-  const fieldRect = gameField.getBoundingClientRect();
-  const x1 = 0;
-  const y1 = 0;
-  const x2 = fieldRect.width - IMG_WIDTH;
-  const y2 = fieldRect.height - IMG_HEIGHT;
-
-  for(let i = 0; i < num; i++) {
-    const item = document.createElement('img');
-    item.setAttribute('class', className);
-    item.setAttribute('src', url)
-    item.style.position = 'absolute'
-    item.style.left = `${makeRandomNum(x1, x2)}px`
-    item.style.top = `${makeRandomNum(y1, y2)}px`
-    gameField.appendChild(item);
-  };
-};
-
-function makeRandomNum(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function onTimer() {
-  let remainSec = 10;
+  let remainSec = TIME_DURATION;
   gameTimer.textContent = `${Math.floor(remainSec / 60)}:${remainSec % 60}`
   timerId = setInterval(() => {
     remainSec--;
