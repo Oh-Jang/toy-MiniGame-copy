@@ -5,7 +5,7 @@ export default class PopUp {
     this.popUp = document.querySelector('.pop-up');
     this.popUpReplayBtn = document.querySelector('.pop-up__btn');
     this.popUpReplayBtn.addEventListener('click', () => {
-      this.onClick();
+      this.onClick && this.onClick();
       this.hide();
     });
     this.popUpText = document.querySelector('.pop-up__text');
@@ -17,10 +17,10 @@ export default class PopUp {
 
   showWithText(text) {
     this.popUpText.textContent = text
-    this.popUp.style.visibility = 'visible'
+    this.popUp.classList.remove('pop-up-hide')
   }
 
   hide() {
-    this.popUp.style.visibility = 'hidden'
+    this.popUp.classList.add('pop-up-hide')
   }
 }

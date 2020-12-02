@@ -34,6 +34,10 @@ button {
   background-color: wheat;
 }
 
+.game__btn-hide {
+  visibility: hidden;
+}
+
 .game__timer {
   width: 100px;
   height: 30px;
@@ -77,6 +81,9 @@ button {
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.6);
   transform: translateY(-150%);
+}
+
+.pop-up-hide {
   visibility: hidden;
 }
 

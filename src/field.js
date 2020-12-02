@@ -25,7 +25,8 @@ export default class Field {
       const item = document.createElement('img');
       item.setAttribute('class', className);
       item.setAttribute('src', url)
-      item.style.position = 'absolute'
+      item.style.position = 'absolute';
+      item.style.userSelect = 'none';
       item.style.left = `${makeRandomNum(x1, x2)}px`
       item.style.top = `${makeRandomNum(y1, y2)}px`
       this.gameField.appendChild(item);
