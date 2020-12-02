@@ -4,10 +4,27 @@ import PopUp from './pop_up.js'
 import Field from './field.js'
 import * as sound from './sound.js'
 
-const CARROT_NUM = 3;
-const BUG_NUM = 2;
-const TIME_DURATION = 3;
-export default class Game {
+export default class GameBuilder {
+  withCarrotCount(carrotCount) {
+    this.carrotCount = carrotCount;
+    return this
+  }
+
+  withBugCount(bugCount) {
+    this.bugCount = bugCount;
+    return this
+  }
+
+  withTimeDuration(timeDuration) {
+    this.timeDuration = timeDuration;
+    return this
+  }
+
+  build() {
+    return new Game(this.carrotCount, this.bugCount, this.timeDuration)
+  }
+}
+class Game {
   constructor(carrotCount, bugCount, timeDuration) {
     this.carrotCount = carrotCount;
     this.bugCount = bugCount;
